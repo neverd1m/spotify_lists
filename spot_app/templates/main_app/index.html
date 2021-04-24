@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Main account page{% endblock %}
+{% block content %}
+
+<p>Здесь перечислены прошлые поисковые запросы</p>
+{% comment %} {% endif %} {% endcomment %}
+<div class="login-form">
+    {% for obj in searches %}
+    <li>
+        {{obj}}
+    </li>
+    {% endfor %}
+    {% comment %} <form action="{% url 'login' %}" method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}" />
+        <p><input type="submit" value="Log-in"></p>
+    </form> {% endcomment %}
+</div>
+<p><a href=" {% url 'start_search' %}">Перейти к поиску клипов</p></a>
+<p><a href="{% url 'sample_search' %}">Пример плейлиста</a></p>
+{% endblock %}
