@@ -19,7 +19,16 @@ from . import views
 
 urlpatterns = [
     # path('index/', views.index, name='index'),
-    path('playlists/', views.get_user_playlists, name='playlists'),
-    path('<str:playlist_id>/tracks', views.get_playlist_tracks, name='tracks'),
-    # path('exit_request/', views.exit_request_handler)
+    path('playlists/', views.Playlists.as_view(), name='playlists'),
+    path('playlists/load', views.get_user_playlists, name='load_playlists'),
+
+    path('<str:playlist_id>/tracks/load',
+         views.get_playlist_tracks, name='tracks_load'),
+
+    path('<str:playlist_id>/tracks',
+         views.Tracks.as_view(), name='playlist_tracks'),
+    path('<str:playlist_id>/tracks/video_links',
+         views.get_links, name='link_videos'),
+    path('playlists/custom_search',
+         views.PlaylistTracks.as_view(), name='custom_playlists')
 ]

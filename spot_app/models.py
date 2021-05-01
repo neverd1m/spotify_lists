@@ -1,17 +1,41 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
+from django.shortcuts import redirect
 
-# Create your models here.
+
+# менеждер для фильтра треков, у которых уже есть ссылка на видео.
+class VideoManager(models.Manager):
+    def get_queryset(self):
+        return super().get_query_set().filter(has_video=True)
 
 
-class Response_list(models.Model):
-    requested_data = models.CharField(
-        ("Исходный запрос"), max_length=200, blank=False)
-    request_date = models.DateTimeField(
-        ("Дата запроса"), auto_now=False, auto_now_add=True)
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, verbose_name=("Владелец запроса"), on_delete=models.CASCADE)
-    result_list = models.TextField(("Ссылки на видео?"))
+class Playlist(models.Model):
+    name = models.CharField(max_length=100)
+    playlist_id = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=timezone)
 
     def __str__(self):
-        return self.requested_data
+        return f'{self.name}'
+
+
+class Track(models.Model):
+    youtube_id = models.CharField(
+        max_length=150, null=True, blank=True, default=None)
+    has_video = False
+    artist = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
+    youtube_link = models.URLField(max_length=200, blank=True, null=True)
+    playlist = models.ForeignKey(
+        'Playlist', related_name='tracks', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=timezone.now)
+    objects = models.Manager()
+    video_objects = VideoManager()
+
+    def __str__(self):
+        return f'{self.name} by {self.artist}'
+
+    def get_absolute_url(self):
+        if not self.youtube_link:
+            return None
+        return redirect(self.youtube_link)

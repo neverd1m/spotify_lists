@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}
+<p>В этом разделе введи id плейлиста из spotify в поле и получили ссылки на видосы в youtube. </p>
+{% endblock %}
+{% block content %}
+<form action="{% url 'custom_playlists' %}" method='post'>
+    {% csrf_token %}
+    {{form.as_p}}
+    {% if tracks %}
+    <p>Вот твои треки, друган. Плейлист называется {{ playlist_name }}</p>
+    {% else %}
+    <button type="submit">Начать поиск</button>
+    {% endif %}
+    {{ tracks.1}} {{tracks.2 }}
+    {%for name, artist, youtube_url, uri in tracks %}
+    <p>{{name}} {{artist }} {{youtube_url}} {{ uri}} </p>
+    {% endfor %}
+</form>
+
+{% endblock content %}
