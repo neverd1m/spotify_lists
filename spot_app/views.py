@@ -90,43 +90,37 @@ def get_playlist_tracks(request, playlist_id=None, custom=False):
     return redirect(reverse('playlist_tracks', kwargs={"playlist_id": playlist_id}))
 
 
-# Классом похоже делать надо.
-# def get_links(request, playlist_id):
-#     playlist = Playlist.objects.get(playlist_id=playlist_id)
-#     for track in playlist.tracks.all():
-#         request = requests.get(
-#             'https://www.googleapis.com/youtube/v3/search', params={
-#                 'part': 'snippet',
-#                 'type': 'video',
-#                 'q': f'{track.name} {track.artist} official',
-#                 'videoCategoryId': '10',
-#                 'maxResults': 1,
-#                 'key': f'{youtube_api}'
-#             }).json()
-#         videoId = request['items'][0]['id']['videoId']
-#         uri = 'https://www.youtube.com/watch?v=' + videoId
-#         track.youtube_link = uri
-#         track.has_video = True
-#         track.youtube_id = videoId
-#         track.save()
-#     return redirect(reverse('playlist_tracks', kwargs={"playlist_id": playlist_id}))
+def get_links(request, name=None, artist=None, playlist_id=None):
+    payload = {
+        'part': 'snippet',
+        'type': 'video',
+        'q': f'{name} {artist} official',
+        'videoCategoryId': '10',
+        'maxResults': 1,
+        'key': f'{youtube_api}'
+    }
+    if playlist_id:
+        playlist = Playlist.objects.get(playlist_id=playlist_id)
+        for track in playlist.tracks.all():
+            payload['q'] = f'{track.name} {track.artist}'
+            request_attempt = requests.get(
+                'https://www.googleapis.com/youtube/v3/search', params=payload).json()
+            videoId = request_attempt['items'][0]['id']['videoId']
+            uri = 'https://www.youtube.com/watch?v=' + videoId
+            track.youtube_link = uri
+            track.has_video = True
+            track.youtube_id = videoId
+            track.save()
+        return redirect(reverse('playlist_tracks', kwargs={"playlist_id": playlist_id}))
 
-
-def get_links(request, name, artist, playlist=None):
-    request_attempt = requests.get(
-        'https://www.googleapis.com/youtube/v3/search', params={
-            'part': 'snippet',
-            'type': 'video',
-            'q': f'{name} {artist} official',
-            'videoCategoryId': '10',
-            'maxResults': 1,
-            'key': f'{youtube_api}'
-        }).json()
-    try:
-        videoId = request_attempt['items'][0]['id']['videoId']
-        uri = 'https://www.youtube.com/watch?v=' + videoId
-    except:
-        videoId = None
-        uri = None
+    else:
+        request_attempt = requests.get(
+            'https://www.googleapis.com/youtube/v3/search', params=payload).json()
+        try:
+            videoId = request_attempt['items'][0]['id']['videoId']
+            uri = 'https://www.youtube.com/watch?v=' + videoId
+        except:
+            videoId = None
+            uri = None
 
     return (name, artist, uri, videoId)

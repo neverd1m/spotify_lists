@@ -2,12 +2,19 @@
 {% block title %}User's playlists{% endblock %}
 {% block content %}
 <h1 class="mt-3">Список моих плейлистов</h1>
-<ul class="list-group">
-        {% for playlist in playlists %}
-        <li class="list-group-item"><a
-                        href="{% url 'playlist_tracks' playlist_id=playlist.playlist_id %}">{{playlist.name}}</a></li>
-        {% endfor %}
-        {% include "main_app/pagination.html" %}
 
-        <p><a href="{% url 'load_playlists' %}">Заполнить плейлисты</a></p>
-        {% endblock %}
+
+<div class="container-fluid">
+        {% for playlist in playlists %}
+        <ul class="list-group mt-2">
+                <li class="list-group-item"><a
+                                href="{% url 'playlist_tracks' playlist_id=playlist.playlist_id %}">{{playlist.name}}</a>
+                </li>
+                {% endfor %}
+                {% include "main_app/pagination.html" %}
+                <form action="{% url 'load_playlists' %}">
+                        <button class="submit btn btn-primary mt-3">Заполнить плейлисты</button>
+                </form>
+
+                {% endblock %}
+</div>

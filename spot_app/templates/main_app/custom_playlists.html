@@ -3,18 +3,22 @@
 <p>В этом разделе введи id плейлиста из spotify в поле и получили ссылки на видосы в youtube. </p>
 {% endblock %}
 {% block content %}
-<form action="{% url 'custom_playlists' %}" method='post'>
-    {% csrf_token %}
-    {{form.as_p}}
-    {% if tracks %}
-    <p>Вот твои треки, друган. Плейлист называется {{ playlist_name }}</p>
-    {% else %}
-    <button type="submit">Начать поиск</button>
-    {% endif %}
-    {{ tracks.1}} {{tracks.2 }}
-    {%for name, artist, youtube_url, uri in tracks %}
-    <p>{{name}} {{artist }} {{youtube_url}} {{ uri}} </p>
-    {% endfor %}
-</form>
+<div class="container-fluid">
+    <form action="{% url 'custom_playlists' %}" method='post'>
+        {% csrf_token %}
+        <p>Введи ниже id плейлиста, для которого ищешь клипы:</p>
+        {{form.playlist_id}}
+        {% if tracks %}
+        <p>Вот твои треки, друган. Плейлист называется {{ playlist_name }}</p>
+        {% else %}
+        <p><button class="submit btn btn-primary mt-3">Начать поиск</button></p>
+        {% endif %}
+        {{ tracks.1}} {{tracks.2 }}
+        {%for name, artist, youtube_url, uri in tracks %}
+        <p>{{name}} {{artist}}</p>
+        <p><iframe width="420" height="345" src="https://www.youtube.com/embed/{{uri}}"></iframe></p>
+        {% endfor %}
+    </form>
+</div>
 
 {% endblock content %}

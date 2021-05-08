@@ -75,10 +75,21 @@ WSGI_APPLICATION = 'spot_proj.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'spotify_database',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': 'db',
+        'PORT': '5432',
     }
 }
 
@@ -129,7 +140,8 @@ AUTHENTICATION_BACKENDS = ('social_core.backends.google.GoogleOAuth2',
 # Google Consumer Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '418499485956-tor27nftpcbsi82rq7uq4htsqcmpd8e4.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'SSfEMGa3daZ3L2l-n9ckt9cm'  # Google Consumer Secret
-ALLOWED_HOSTS = ['neverd1m.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['neverd1m.com', 'localhost',
+                 '127.0.0.1', '0.0.0.0', '84.252.143.150']
 
 
 SPOTIPY_CLIENT_ID = "3635361bc88c4669bfd0f7ce0c5dd728"
