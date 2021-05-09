@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.views.generic import ListView, View, FormView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from functools import wraps
 import json
@@ -12,6 +14,7 @@ from .secrets import user_id, user_token, youtube_api
 from .models import *
 
 
+@login_required
 class Playlists(ListView):
     queryset = Playlist.objects.all().order_by('created_at')
     template_name = 'main_app/show_playlists.html'

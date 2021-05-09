@@ -30,5 +30,6 @@ urlpatterns = [
     path('<str:playlist_id>/tracks/video_links',
          views.get_links, name='link_videos'),
     path('playlists/custom_search',
-         views.PlaylistTracks.as_view(), name='custom_playlists')
+         views.PlaylistTracks.as_view(), name='custom_playlists'),
+    path('accounts/', include('django.contrib.auth.urls'))
 ]
