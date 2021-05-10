@@ -11,6 +11,8 @@ class VideoManager(models.Manager):
 
 
 class Playlist(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     playlist_id = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=timezone)

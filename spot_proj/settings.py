@@ -139,7 +139,8 @@ AUTHENTICATION_BACKENDS = ('social_core.backends.google.GoogleOAuth2',
                            'django.contrib.auth.backends.ModelBackend',)
 # Google Consumer Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '418499485956-tor27nftpcbsi82rq7uq4htsqcmpd8e4.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'SSfEMGa3daZ3L2l-n9ckt9cm'  # Google Consumer Secret
+# Google Consumer Secret
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'vzDV9iH9UrNxK0f-aasX6jo_'
 ALLOWED_HOSTS = ['neverd1m.com', 'localhost',
                  '127.0.0.1', '0.0.0.0', '84.252.143.150']
 

@@ -14,15 +14,14 @@ from .secrets import user_id, user_token, youtube_api
 from .models import *
 
 
-@login_required
-class Playlists(ListView):
+class Playlists(LoginRequiredMixin, ListView):
     queryset = Playlist.objects.all().order_by('created_at')
     template_name = 'main_app/show_playlists.html'
     paginate_by = 10
     context_object_name = 'playlists'
 
 
-class Tracks(ListView):
+class Tracks(LoginRequiredMixin, ListView):
     template_name = 'main_app/show_tracks.html'
     paginate_by = 10
     context_object_name = 'tracks'
