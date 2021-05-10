@@ -14,7 +14,6 @@ from .secrets import user_id, user_token, youtube_api
 from .models import *
 
 
-@login_required
 class Playlists(ListView):
     queryset = Playlist.objects.all().order_by('created_at')
     template_name = 'main_app/show_playlists.html'
