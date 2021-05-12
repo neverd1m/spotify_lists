@@ -9,7 +9,7 @@ from .forms import *
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials, SpotifyOAuth
 import requests
-from .secrets import user_id, user_token, youtube_api
+from .secrets import user_id, user_token, youtube_api, SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET
 
 from .models import *
 
@@ -73,7 +73,7 @@ class PlaylistTracks(View):
 
 
 def get_playlist_tracks(request, playlist_id=None, custom=False):
-    # sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials())
+
     sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope="user-library-read"))
     tracks_data = sp.playlist(
         playlist_id, fields='name, id, tracks.items.track.name, tracks.items.track.album.artists', market='RU', additional_types=['track'])
